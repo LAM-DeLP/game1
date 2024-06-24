@@ -1,4 +1,4 @@
-import sys,time,pygame,math
+import sys,pygame,math
 from pygame.locals import *
 
 #すべてのボール位置、大きさ取得→(位置+大きさ)マスを衝突判定に追加
@@ -31,7 +31,7 @@ class charaObj:
             elif relativepos[0]**2+relativepos[1]**2 >=(sumrad**2):
                 self.numset.append([-1,-1])
             elif self.numset[now] != [indexnum,now]:
-                self.numset.append([indexnum,now])
+
                 if relativepos[0]==0:
                     thetapos = math.pi/2
                 else:
@@ -95,7 +95,7 @@ class originGames:
                     print("mouse clicked -> (" + str(x) + ", " + str(y) + ")")
             
             pygame.display.update()
-            time.sleep(0.01)
+            pygame.time.Clock().tick(60)
 
 if __name__ == "__main__":
     game1 = originGames(375,667)
