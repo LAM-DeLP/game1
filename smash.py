@@ -64,7 +64,7 @@ class originGames:
         self.screen = pygame.display.set_mode((w,h)) 
 
     def main(self):
-        balli = [charaObj(30,100,30,5,0),charaObj(100,30,20,0,5),charaObj(300,500,40,3,5)]
+        balli = [charaObj(30,100,30,10,0),charaObj(100,30,20,0,0)]
 
         while True:
             self.screen.fill((255,255,255))
@@ -91,8 +91,9 @@ class originGames:
                     sys.exit()
 
                 if event.type == MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    print("mouse clicked -> (" + str(x) + ", " + str(y) + ")")
+                    if event.button == 1:
+                        x, y = event.pos
+                        balli.append(charaObj(x,y,20,0,0))
             
             pygame.display.update()
             pygame.time.Clock().tick(60)
