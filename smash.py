@@ -53,7 +53,11 @@ class charaObj:
     def move(self):
         for i in range(2):    
             self.pos[i] += self.ver[i]
-            self.ver[i] -= 0*self.rad*self.ver[i]
+            self.ver[i] -= 0.001*self.rad*self.ver[i]
+
+    def accel(self,ax,ay):
+        self.ver[0] += ax*0.1
+        self.ver[1] += ay*0.1
 
 
 class originGames:
@@ -64,8 +68,9 @@ class originGames:
         self.screen = pygame.display.set_mode((w,h)) 
 
     def main(self):
-        balli = [charaObj(30,100,30,10,0),charaObj(100,30,20,0,0)]
-
+        balli = [charaObj(30,100,30,0,0),charaObj(130,200,20,0,0)]
+        mouse1 =[-1,-1]
+        mouse2 =[-1,-1]
         while True:
             self.screen.fill((255,255,255))
             xys=[]
@@ -80,10 +85,10 @@ class originGames:
                 rads.append(ball.rad)
                 pygame.draw.circle(self.screen,(0,0,0),(ball.pos[0],ball.pos[1]),ball.rad)
 
-            for i in range(len(balli)):
-                balli[i].collide(i,xys,vers,rads)
-                balli[i].reflect(self.wall)
-                balli[i].move()
+            for i, ball in enumerate(balli):
+                ball.collide(i,xys,vers,rads)
+                ball.reflect(self.wall)
+                ball.move()
 
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -92,9 +97,27 @@ class originGames:
 
                 if event.type == MOUSEBUTTONDOWN:
                     if event.button == 1:
-                        x, y = event.pos
-                        balli.append(charaObj(x,y,20,0,0))
+                        mouse1 = event.pos
+                if event.type == MOUSEMOTION:
+                    pass
+                if event.type == MOUSEBUTTONUP:
+                        mouse2 = event.pos
+
             
+            if mouse2!=[-1,-1]:
+                chngMpos = [mouse1[0]-mouse2[0],mouse1[1]-mouse2[1]]
+                if (chngMpos[0])**2 + (chngMpos[1])**2 > 100:
+                    for i in range(2):
+                        if chngMpos[i] > 100:
+                            chngMpos[i] = 100
+                    
+                    balli[0].accel(chngMpos[0],chngMpos[1])
+                else:
+                    pass
+                mouse2 = [-1,-1]
+            else:
+                pass
+
             pygame.display.update()
             pygame.time.Clock().tick(60)
 
