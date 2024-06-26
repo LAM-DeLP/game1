@@ -109,7 +109,7 @@ class originGames:
                 if (chngMpos[0])**2 + (chngMpos[1])**2 > 100:
                     for i in range(2):
                         if chngMpos[i] > 100:
-                            chngMpos[i] = 100
+                            chngMpos[i] = 150
                     
                     balli[0].accel(chngMpos[0],chngMpos[1])
                 else:
